@@ -1,0 +1,37 @@
+{
+  "name": "ccd",
+  "version": "1.0.6",
+  "description": "Class based web framework on top of Express that uses async await operators to simplify the controllers logic and promote writing clean, simple and maintainable web server",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "example": "node ./example/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.codechem.com/codechem/ccd.git"
+  },
+  "keywords": [
+    "node.js",
+    "server",
+    "framework",
+    "async",
+    "await",
+    "ecma6",
+    "typescript",
+    "express"
+  ],
+  "dependencies": {
+    "typescript": "*",
+    "express": "*",
+    "mongoose": "*"
+  },
+  "author": "Code Chemistry",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.0.2",
+    "merge2": "^1.0.2"
+  }
+}
