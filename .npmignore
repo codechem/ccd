@@ -1,4 +1,7 @@
+.gitignore
 typings/
 node_modules/
 .vscode
+.tsconfig
+gulpfile.js
 *.js.map

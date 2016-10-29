@@ -10,7 +10,6 @@ export interface ProxyHandlerDescritor {
 function proxied(verb, resource, ...handlers) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         if (!target.proxyHandlerDescriptors) {
-            target.__proto__.proxyHandlerDescriptors = []
             target.proxyHandlerDescriptors = []
         }
         let handlerDesc: ProxyHandlerDescritor = {
