@@ -1,4 +1,3 @@
-import { send } from './utils'
 import * as express from 'express'
 export interface ProxyHandlerDescritor {
     verb: string

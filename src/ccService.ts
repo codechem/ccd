@@ -54,7 +54,7 @@ export class CCService<T extends mongoose.Document>{
      */
     createAndSaveMany(documents: any[], callback?: Clb<T[]>) {
         return this.model.create(documents, callback);
-    }
+    } 
     /**
      * Creates a new object of type T and returns it. 
      * @param {any} document a hasmap with the fields we want to create the object from

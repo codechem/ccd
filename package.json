@@ -1,6 +1,6 @@
 {
   "name": "ccd",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "description": "Class based web framework on top of Express that uses async await operators to simplify the controllers logic and promote writing clean, simple and maintainable web server",
   "main": "index.js",
   "types": "index.d.ts",
@@ -31,6 +31,8 @@
   "license": "ISC",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-publish": "^0.8.7",
+    "gulp-shell": "^0.5.2",
     "gulp-typescript": "^3.0.2",
     "merge2": "^1.0.2"
   }
