@@ -1,6 +1,6 @@
 {
   "name": "ccd",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "Class based web framework on top of Express that uses async await operators to simplify the controllers logic and promote writing clean, simple and maintainable web server",
   "main": "index.js",
   "types": "index.d.ts",

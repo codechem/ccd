@@ -52,7 +52,7 @@ export class CCService<T extends mongoose.Document>{
     /**
      * From a given array of objects it tries to create T[] array and saves it to the database
      */
-    createAndSaveMany(documents: any[], callback?: Clb<T[]>) {
+    createAndSaveMany(documents: any[], callback?: Clb<T[]>):Promise<T[]> {
         return this.model.create(documents, callback);
     } 
     /**
