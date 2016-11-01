@@ -2,32 +2,51 @@ var gulp = require('gulp');
 var bump = require('gulp-bump');
 var ts = require('gulp-typescript');
 var merge = require('merge2');
-var clean = require('gulp-clean')
-var childProcess = require('child_process')
+var clean = require('gulp-clean');
+var sourcemaps = require('gulp-sourcemaps');
+var childProcess = require('child_process');
 var tsProject = ts.createProject('tsconfig.json');
+var tslint = require("gulp-tslint");
+
 gulp.task('clean', function(){
     return gulp.src('./build').pipe(clean());
 });
 
-gulp.task('compile', ['compileIndex', 'compileExample'],function() {
-    var tsResult = gulp.src('src/**/*.ts').pipe(tsProject());
+gulp.task('compile', ['tslint','compileIndex', 'compileExample'],function() {
+    var tsResult = gulp.src('src/**/*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(tsProject());
     return merge([
         tsResult.dts.pipe(gulp.dest('./build/src')),
-        tsResult.js.pipe(gulp.dest('./build/src'))
+        tsResult.js
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest('./build/src'))
     ]);
 });
 
+gulp.task('tslint', function(){
+    gulp.src('src/**/*.ts')
+        .pipe(tslint({formatter: "verbose"}))
+        .pipe(tslint.report())
+});
+
 gulp.task('compileIndex', function() {
-    var tsResultIndex = gulp.src('./*.ts').pipe(tsProject());
+    var tsResultIndex = gulp.src('./*.ts')
+        .pipe(sourcemaps.init())
+        .pipe(tsProject());
     return merge([ 
         tsResultIndex.dts.pipe(gulp.dest('./build')),
-        tsResultIndex.js.pipe(gulp.dest('./build'))        
+        tsResultIndex.js
+            .pipe(sourcemaps.write('.'))
+            .pipe(gulp.dest('./build'))        
     ]);
 });
 
 gulp.task('compileExample', function() {
     var tsProject = ts.createProject('tsconfig.json');
-    var tsResult = gulp.src('./example/*.ts').pipe(tsProject());
+    var tsResult = gulp.src('./example/*.ts')
+        .pipe(sourcemaps.init('.'))
+        .pipe(tsProject());
     return merge([ 
         tsResult.dts.pipe(gulp.dest('./build/example')),
         tsResult.js.pipe(gulp.dest('./build/example')),

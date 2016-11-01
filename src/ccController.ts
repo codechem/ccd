@@ -1,9 +1,10 @@
-import { send, DebugSettings } from './utils'
-import * as mongoose from 'mongoose';
-import { IRouter, RequestHandler } from 'express';
-import { CCService } from './ccService';
-import { ProxyHandlerDescritor } from './controllerDecorators'
-import * as express from 'express'
+import { ProxyHandlerDescritor } from './controllerDecorators';
+import { IRouter, Request, RequestHandler, Response, Router } from './refs';
+import { DebugSettings, send, sendData, SenderFunction } from './utils';
+
+export interface NextFunction {
+    (err?: any): void;
+}
 
 export interface ICCController {
     router: IRouter;
@@ -12,14 +13,14 @@ export interface ICCController {
     setDefaultRoutes(...middlewares: RequestHandler[]): IRouter;
     send(req: any, res: any, data: (err: any, data: any) => any | Object | any): void;
     error(req: any, res: any, data: Object): void;
-    proxied(method: any): (req: express.Request, res: express.Response, next: express.NextFunction) => void;
+    proxied(method: any): (req: Request, res: Response, next: NextFunction) => void;
     ctrl(name: string): RequestHandler;
 }
 
 export class CCController implements ICCController {
     constructor(public router: IRouter = null, public debugSettings?: DebugSettings) {
         if(!this.router)
-            this.router = express.Router()
+            this.router = Router()
         if (!debugSettings)
             debugSettings = { debug: false } 
         this.setRoutes()
@@ -31,15 +32,28 @@ export class CCController implements ICCController {
     public setDefaultRoutes(...middlewares: RequestHandler[]): IRouter {
         return this.router;
     }
-    send(req, res, data: (err: any, data: any) => any | Object | any) {
-        send(req, res, data);
+    /**
+     * Instead of returning the result you can use this method to pass the return result   
+     * @result {hashmap|}
+     */
+    send(req, res, data:(err:any, data:any)=>any, senderFunction?:SenderFunction):void {
+        let sf = senderFunction;
+        if(!sf){
+            sf = this.senderFunction.bind(this);
+        }
+        send(req, res, data, sf);
     }
+
+    senderFunction(res, err, data){
+        return sendData(res, err, data);
+    }
+
     error(req, res, data: Object) {
         console.log('error happened, please fix me ');
         res.sendStatus(401);
     }
     proxied(method) {
-        return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        return (req: Request, res: Response, next: NextFunction) => {
             try {
                 let result = method.apply(this, [req, res, next])
                 this.send(req, res, result);

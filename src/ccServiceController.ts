@@ -2,7 +2,7 @@ import mongoose = require('mongoose')
 import {CCController, ICCController} from './ccController'
 import {CCService} from './ccService'
 import {DebugSettings} from './utils' 
-import { Router, IRouter, Request, Response, RequestHandler,NextFunction } from 'express'
+import { IRouter, RequestHandler } from 'express'
 
 export interface ICCServiceController<T extends mongoose.Document> extends ICCController {
     svc: CCService<T>;

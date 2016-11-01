@@ -1,9 +1,10 @@
-import * as express from 'express'
+import {RequestHandler} from './refs'
+
 export interface ProxyHandlerDescritor {
     verb: string
     resource: string,
     methodName: string
-    handlers: express.RequestHandler[]
+    handlers: RequestHandler[]
 }
 
 function proxied(verb, resource, ...handlers) {

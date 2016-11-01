@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {CCController, Router, get} from  '../index'
+import {CCController, get} from  '../index'
 let app = express()
 
 class HelloCtrl extends CCController{

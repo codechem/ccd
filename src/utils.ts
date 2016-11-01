@@ -1,13 +1,15 @@
 import * as express from 'express'
 import * as mongoose from 'mongoose' 
+
 export interface DebugSettings {
     debug: boolean
 }
+export type SenderFunction = (res:express.Response, err:any, data:any)=>void
 
-function sendData(res:express.Response, err:any, data:any) {
+export function sendData(res:express.Response, err:any, data:any) {
     if (!err && !res) return this;
     if (err) {
-        if (err.name == 'MongooseError') {
+        if (err.name === 'MongooseError') {
             res.send(500);
         } else {
             res.header('Title', 'Invalid Data');
@@ -27,27 +29,28 @@ function sendData(res:express.Response, err:any, data:any) {
         }   
     }
 }
-export function send(req: express.Request, res: express.Response, dataFunction: any) {
-    let isPromise = dataFunction && typeof dataFunction.then == 'function'
-    if (dataFunction) {
-        if (typeof (dataFunction) == 'function') {
+
+export function send(req: express.Request, res: express.Response, dataObject: any, sendFunction:SenderFunction=sendData) {
+    let isPromise = dataObject && typeof dataObject.then === 'function'
+    if (dataObject) {
+        if (typeof (dataObject) === 'function') {
             try {
-                dataFunction((err, data) => sendData(res, err, data));
+                dataObject((err, data) => sendFunction(res, err, data));
             } catch (ex) {
-                sendData(res, ex, null)
+                sendFunction(res, ex, null)
             }
         } else if (isPromise) {
             try {
-                dataFunction.then(result => {
-                    sendData(res, null, result);
+                dataObject.then(result => {
+                    sendFunction(res, null, result);
                 }).catch(reason => {
-                    sendData(res, reason, null)
+                    sendFunction(res, reason, null)
                 })
             } catch (ex) {
-                sendData(res, ex, null)
+                sendFunction(res, ex, null)
             }
         } else {
-            sendData(res, null, dataFunction);
+            sendFunction(res, null, dataObject);
         }
     } else {
         throw new Error('No Data passed');
