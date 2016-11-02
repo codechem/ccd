@@ -1,6 +1,13 @@
+# ccd  ES7 web framework for node 
+
+
+[![npm version](https://badge.fury.io/js/ccd.png)](https://badge.fury.io/js/ccd)
+[![Build Status](https://travis-ci.org/codechem/ccd.svg?branch=master)](https://travis-ci.org/codechem/ccd)
 
 Expressive, class based approach web framework. 
-It uses the latest javascript features like async/await and decorators to make writing web apps and apis simple and fun. 
+It uses the latest ES7 features like async/await and decorators to make writing web apps and apis simple and fun.
+It can be used thru typescript only at the moment  
+
 
 ## Installation
 
