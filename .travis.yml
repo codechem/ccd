@@ -5,7 +5,7 @@ before_script:
 - npm install -g gulp
 - npm install
 script:
-- gulp publish
+- gulp
 deploy:
   provider: npm
   email: costa@codechem.com
