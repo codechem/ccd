@@ -8,7 +8,6 @@ Expressive, class based approach web framework.
 It uses the latest ES7 features like async/await and decorators to make writing web apps and apis simple and fun.
 It can be used thru typescript only at the moment  
 
-
 ## Installation
 
 ```
@@ -70,7 +69,41 @@ app.use('/hello', ctrl.router)
 app.listen(3000);
 ```
 
+## Dependencies
+
+```
+    typescript
+    debug
+    express>
+    mongoose
+```
+## Notes
+
+**Mongoose** is temporary dependency because in the library there is a class called CCService 
+which will be eventualy plugin for the **ccd** framework.
+
+The idea behind this is easy and fast creation of services who use mongoose as a backend,
+It contains all the CRUD methods already implmented and with combination with CCController implementation it provides really short and descriptive environment for devinging them, 
+primarily because mongoose returns promises , so async/await are fully applicable. 
+
+Example:
+
+```javascript
+    //Service implementation already has all the crud operations, and you can freely override them
+    class SpiecesSvc extends CCService<Spiece>{
+        ofKind(kind:string){
+            return this.model.find({Kind:kind}).exec();
+        }
+    }
+    //----------
+    class SpiecesCtrl extends CCController{
+        spieces: new SpiecesSvc('Spieces')
+        @get('/spieces/:kind') 
+        ofKind(req, res){
+             return spieces.ofKind(req.params.kind);
+        }
+    }
+```
+ 
 ## Contributors
 [Costa Halicea](https://github.com/halicea)|
-[Lazar Nikolov](https://codechem.com)|
-[Stefan Popovski](https://codechem.com)

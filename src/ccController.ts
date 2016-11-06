@@ -32,6 +32,11 @@ export class CCController implements ICCController {
     public setDefaultRoutes(...middlewares: RequestHandler[]): IRouter {
         return this.router;
     }
+
+    senderFunction(res, err, data){
+        return sendData(res, err, data);
+    }
+
     /**
      * Instead of returning the result you can use this method to pass the return result   
      * @result {hashmap|}
@@ -44,14 +49,15 @@ export class CCController implements ICCController {
         send(req, res, data, sf);
     }
 
-    senderFunction(res, err, data){
-        return sendData(res, err, data);
-    }
-
+    /**
+     * Do not use this method yet, it's still in development
+     */
     error(req, res, data: Object) {
+        //TODO: implement me properly
         console.log('error happened, please fix me ');
         res.sendStatus(401);
     }
+
     proxied(method) {
         return (req: Request, res: Response, next: NextFunction) => {
             try {

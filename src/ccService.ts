@@ -11,7 +11,7 @@ export class CCService<T extends mongoose.Document>{
             throw "modelName field must be set";
         this.model = mongoose.model<T>(this.modelName);
     }
-    /**
+    /**+
      * Retrieves all documents from the collection
      */
     getAll(callback?: Clb<T[]>): Promise<T[]> {
@@ -20,7 +20,7 @@ export class CCService<T extends mongoose.Document>{
     /**
      * Retrieves a document by it's Id
      */
-    byId(id: string | number | ObjectId, callback?: Clb<T>): Promise<T> {
+    byId(id: Id, callback?: Clb<T>): Promise<T> {
         return this.model.findById(id).exec(callback);
     }
     /**
@@ -28,33 +28,34 @@ export class CCService<T extends mongoose.Document>{
      * @param {string | number | ObjectId} id the Id of the document in the db
      * @param  {any} update a hashmap of the fields to update and their new values as keys
      * @param {Clb<T>}  callback optional callback that can be used to retrieve the results
-     * @returns {Primise<T>} 
+     * @returns {Promise<T>} 
      */
-    updateById(id: string | number | ObjectId, update: any, callback?: Clb<T>): Promise<T> {
+    updateById(id: Id, update: any, callback?: Clb<T>): Promise<T> {
         return this.model.findByIdAndUpdate(id, update, { new: true }).exec(callback);
     }
+
     /**
      * Deletes a document by the given id and returns it
      */
-    deleteById(id: string | number | ObjectId, callback?: Clb<T>): Promise<T> {
+    deleteById(id: Id, callback?: Clb<T>): Promise<T> {
         return this.model.findByIdAndRemove(id).exec(callback);
     }
-    
+
     /**
      * For a given object it tries to create T instance, saves it to the database and returns it
      * @argument document:any
      * @returns T
      */
-    createAndSave(document:any, callback?: Clb<T>): Promise<T>{ 
+    createAndSave(document: any, callback?: Clb<T>): Promise<T> {
         return this.insert(this.create(document), callback);
     }
 
     /**
      * From a given array of objects it tries to create T[] array and saves it to the database
      */
-    createAndSaveMany(documents: any[], callback?: Clb<T[]>):Promise<T[]> {
+    createAndSaveMany(documents: any[], callback?: Clb<T[]>): Promise<T[]> {
         return this.model.create(documents, callback);
-    } 
+    }
     /**
      * Creates a new object of type T and returns it. 
      * @param {any} document a hasmap with the fields we want to create the object from
