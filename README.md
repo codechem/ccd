@@ -1,5 +1,6 @@
-# ccd  ES7 web framework for node 
+<img src="https://raw.githubusercontent.com/codechem/ccd-snippets/master/images/ccdLogo.png"></img>
 
+# CCD - ES7 web framework for node 
 
 [![npm version](https://badge.fury.io/js/ccd.png)](https://badge.fury.io/js/ccd)
 [![Build Status](https://travis-ci.org/codechem/ccd.svg?branch=master)](https://travis-ci.org/codechem/ccd)
@@ -104,6 +105,6 @@ Example:
         }
     }
 ```
- 
+
 ## Contributors
 [Costa Halicea](https://github.com/halicea)|
