@@ -1,0 +1,5 @@
+export * from './ccActionDescriptor'
+export * from './descriptorStore'
+export * from './verbDecorators'
+export * from './docDecorators'
+export * from './ngDescriptor'

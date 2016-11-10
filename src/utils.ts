@@ -1,5 +1,6 @@
 import * as express from 'express'
 import * as mongoose from 'mongoose' 
+import { DescriptorStore } from './decorators/descriptorStore';
 
 export interface DebugSettings {
     debug: boolean
@@ -28,6 +29,11 @@ export function sendData(res:express.Response, err:any, data:any) {
             sendData(res, error, null)
         }   
     }
+}
+export function ensureDescriptorStore(item:any){
+    if(!item['__descriptors'])
+        item['__descriptors'] = new DescriptorStore()
+    return item
 }
 
 export function send(req: express.Request, res: express.Response, dataObject: any, sendFunction:SenderFunction=sendData) {

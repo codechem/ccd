@@ -1,17 +1,20 @@
 import * as express from 'express'
-import {CCController, get, docGen, ngCtrlGen} from  '../index'
+import {CCController, get, post, docGen, ngSvcGen} from  'ccd'
 let app = express()
 
-@docGen('./docs')
-@ngCtrlGen('./client/services')
 
+@ngSvcGen('./client/services', true)
+@docGen('./docs')
 class HelloCtrl extends CCController{
     @get('/hello')    
     helloWorld(req, res){
         return 'helloWorld'
     }
-
-    @get('/async')    
+    @post('/:id')
+    update(req, res){
+        return 'ajde sega da videme'
+    }
+    @get('/async')
     helloWorldAsync(req, res){
         return new Promise((resolve)=>{
             setTimeout(function() {

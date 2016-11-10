@@ -25,6 +25,7 @@
   "dependencies": {
     "debug": "^2.2.0",
     "express": "*",
+    "mkdirp": "^0.5.1",
     "mongoose": "*",
     "typescript": "*"
   },

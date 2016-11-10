@@ -1,6 +1,7 @@
-import { ProxyHandlerDescritor } from './controllerDecorators';
 import { IRouter, Request, RequestHandler, Response, Router } from './refs';
 import { DebugSettings, send, sendData, SenderFunction } from './utils';
+import { DescriptorStore } from './decorators/descriptorStore';
+
 
 export interface NextFunction {
     (err?: any): void;
@@ -18,25 +19,17 @@ export interface ICCController {
 }
 
 export class CCController implements ICCController {
-    __descriptors = {}
+    __descriptors:DescriptorStore;
     constructor(public router: IRouter = null, public debugSettings?: DebugSettings) {
         if(!this.router)
             this.router = Router()
         if (!debugSettings)
-            debugSettings = { debug: false } 
-        this.setRoutes()
-        this.applyDescriptors();
-        // this._setProxiedMethods()
-    }
-    applyDescriptors(){
-        for (let key in this.__descriptors) { 
-            if(this.__descriptors.hasOwnProperty(key)){
-                let descriptors = this.__descriptors[key];
-                descriptors.forEach(d=>d.apply(this));        
-            }
-        }
-    }
+            this.debugSettings = { debug: false } 
+        this.__descriptors.apply(this);
+        this.__descriptors.clear();
 
+        this.setRoutes();
+    }
     public setRoutes() { }
 
     public setDefaultRoutes(...middlewares: RequestHandler[]): IRouter {
@@ -79,18 +72,6 @@ export class CCController implements ICCController {
                     console.log(ex.stack)
                 res.sendStatus(500);
             }
-        }
-    }
-
-    private _setProxiedMethods() {
-        if (this['proxyHandlerDescriptors']) {
-            let proxyHandlerDescriptors = this['proxyHandlerDescriptors'] as ProxyHandlerDescritor[]
-
-            proxyHandlerDescriptors.forEach(p => {
-                this[p.methodName] = this.proxied(this[p.methodName]);
-                this.router[p.verb].apply(this.router, [p.resource, ...p.handlers, this[p.methodName].bind(this)])
-            })
-            this['proxyHandlerDescriptors'] = proxyHandlerDescriptors.slice(0, (<any>this).proxyHandlerDescriptors.length)
         }
     }
 
