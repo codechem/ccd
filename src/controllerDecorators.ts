@@ -3,25 +3,25 @@ import { RequestHandler } from './refs'
 import { CCController } from './ccController'
 export interface CCActionDescritor {
     apply(target: any)
-    methodName:string
+    targetName:string
 }
 
 export class ProxyHandlerDescritor implements CCActionDescritor {
     verb: string
     resource: string
-    public methodName: string
+    public targetName: string
     handlers: RequestHandler[]
-    constructor(methodName:string){
-        this.methodName = methodName;
+    constructor(targetName:string){
+        this.targetName = targetName;
     }
     apply(target: any) {
         let ctrl = <CCController>target;
-        let proxiedMethod = ctrl[this.methodName] = ProxyHandlerDescritor.proxied(ctrl, this.methodName);
+        let proxiedMethod = ctrl[this.targetName] = ProxyHandlerDescritor.proxied(ctrl, this.targetName);
         ctrl.router[this.verb].apply(ctrl.router,
             [this.resource, ...this.handlers, proxiedMethod.bind(ctrl)])
     }
-    private static proxied(ctrl:CCController, methodName:string){
-        let method = ctrl[methodName];
+    private static proxied(ctrl:CCController, targetName:string){
+        let method = ctrl[targetName];
         return (req, res, next) => {
             try {
                 let result = method.apply(ctrl, [req, res, next])
@@ -39,15 +39,11 @@ export class ProxyHandlerDescritor implements CCActionDescritor {
 function proxied(verb, resource, ...handlers) {
     return function (target: CCController, propertyKey: string, descriptor: PropertyDescriptor) {
         let group = ensureDescriptors(target, 'proxyHandlerDescriptors')
-        // if (!(target as any).proxyHandlerDescriptors)
-        //     (target as any).proxyHandlerDescriptors = []
-
         let handlerDesc = new ProxyHandlerDescritor(propertyKey);
         handlerDesc.verb = verb;
         handlerDesc.resource = resource;
         handlerDesc.handlers = handlers;
         group.push(handlerDesc);
-        // (target as any).proxyHandlerDescriptors.push(handlerDesc)
         return descriptor;
     }
 }
@@ -59,18 +55,27 @@ export function del(resouce, ...handlers) { return proxied('delete', resouce, ..
 export function opt(resouce, ...handlers) { return proxied('options', resouce, ...handlers) }
 export function head(resouce, ...handlers) { return proxied('head', resouce, ...handlers) }
 
+
+class DocumentationDescriptor implements CCActionDescritor{
+    constructor(public targetName:string){}
+    apply(ctrl:CCController){
+        let routes = ctrl.__descriptors['proxyHandlerDescriptors'] as ProxyHandlerDescritor[];
+        console.log(routes.map(r=>`${r.verb}:${r.targetName}`))
+    }
+}
+
 export function ngCtrlGen(outputDir: string) {
     console.log(`registered ngCtrlGen to ${outputDir}`)
     return function (constructor: Function) {
-        
-        console.log(`generating NgServices for ${constructor}`);
+        console.log(`generating NgServices for ${constructor.name}`);
     }
 }
 
 export function docGen(outputDir: string) {
     console.log(`registered docGen to ${outputDir}`)
     return function (constructor: Function) {
-        console.log(`generating Doc for ${constructor}`);
+        let group = ensureDescriptors(constructor.prototype, 'docDescriptors')
+        group.push(new DocumentationDescriptor(constructor.name));
     }
 }
 
