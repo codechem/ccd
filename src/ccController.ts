@@ -18,13 +18,23 @@ export interface ICCController {
 }
 
 export class CCController implements ICCController {
+    __descriptors = {}
     constructor(public router: IRouter = null, public debugSettings?: DebugSettings) {
         if(!this.router)
             this.router = Router()
         if (!debugSettings)
             debugSettings = { debug: false } 
         this.setRoutes()
-        this._setProxiedMethods()
+        this.applyDescriptors();
+        // this._setProxiedMethods()
+    }
+    applyDescriptors(){
+        for (let key in this.__descriptors) { 
+            if(this.__descriptors.hasOwnProperty(key)){
+                let descriptors = this.__descriptors[key];
+                descriptors.forEach(d=>d.apply(this));        
+            }
+        }
     }
 
     public setRoutes() { }

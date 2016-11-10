@@ -5,7 +5,7 @@
             "name": "Launch Example",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/example/server.ts",
+            "program": "${workspaceRoot}/build/example/server.js",
             "stopOnEntry": false,
             "args": ["start"],
             "cwd": "${workspaceRoot}",
@@ -20,7 +20,10 @@
             "console": "internalConsole",
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/build/example/**/*.js"
+                "${workspaceRoot}/build/example/server.js",
+                "${workspaceRoot}/build/example/server.js.map",
+                "${workspaceRoot}/build/**/*.js",
+                "${workspaceRoot}/build/**/*.js.map"
             ]
         }
     ]

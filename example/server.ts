@@ -1,6 +1,9 @@
 import * as express from 'express'
-import {CCController, get} from  '../index'
+import {CCController, get, docGen, ngCtrlGen} from  '../index'
 let app = express()
+
+@docGen('./docs')
+@ngCtrlGen('./client/services')
 
 class HelloCtrl extends CCController{
     @get('/hello')    
