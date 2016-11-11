@@ -26,8 +26,8 @@ export class CCController implements ICCController {
             debugSettings = { debug: false } 
         this.setRoutes()
         this.applyDescriptors();
-        // this._setProxiedMethods()
     }
+
     applyDescriptors(){
         for (let key in this.__descriptors) { 
             if(this.__descriptors.hasOwnProperty(key)){
@@ -79,18 +79,6 @@ export class CCController implements ICCController {
                     console.log(ex.stack)
                 res.sendStatus(500);
             }
-        }
-    }
-
-    private _setProxiedMethods() {
-        if (this['proxyHandlerDescriptors']) {
-            let proxyHandlerDescriptors = this['proxyHandlerDescriptors'] as ProxyHandlerDescritor[]
-
-            proxyHandlerDescriptors.forEach(p => {
-                this[p.methodName] = this.proxied(this[p.methodName]);
-                this.router[p.verb].apply(this.router, [p.resource, ...p.handlers, this[p.methodName].bind(this)])
-            })
-            this['proxyHandlerDescriptors'] = proxyHandlerDescriptors.slice(0, (<any>this).proxyHandlerDescriptors.length)
         }
     }
 
