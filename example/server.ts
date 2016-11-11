@@ -1,29 +1,29 @@
 import * as express from 'express'
-import {CCController, get, post} from  'ccd'
+import { CCController, get, post } from 'ccd'
 let app = express()
 
-class HelloCtrl extends CCController{
-    @get('/hello')    
-    helloWorld(req, res){
+class HelloCtrl extends CCController {
+    @get('/hello')
+    helloWorld(req, res) {
         return 'helloWorld'
     }
     @post('/:id')
-    update(req, res){
-        return 'ajde sega da videme'
+    update(req, res) {
+        return { id: req.params.id }
     }
     @get('/async')
-    helloWorldAsync(req, res){
-        return new Promise((resolve)=>{
-            setTimeout(function() {
-                resolve({value:'hello async'});
+    helloWorldAsync(req, res) {
+        return new Promise((resolve) => {
+            setTimeout(function () {
+                resolve({ value: 'hello async' });
             }, 200);
         })
     }
 
-    @get('/async-error')    
-    async errorWorldAsync(req, res){
-        return await new Promise((resolve, reject)=>{
-            setTimeout(function() {
+    @get('/async-error')
+    async errorWorldAsync(req, res) {
+        return await new Promise((resolve, reject) => {
+            setTimeout(function () {
                 reject('I just crashed in error world');
             }, 200);
         })
