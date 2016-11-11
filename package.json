@@ -13,6 +13,7 @@
     "url": "https://github.com/codechem/ccd"
   },
   "keywords": [
+    "ccd",
     "node.js",
     "server",
     "framework",
@@ -25,8 +26,6 @@
   "dependencies": {
     "debug": "^2.2.0",
     "express": "*",
-    "mkdirp": "^0.5.1",
-    "mongoose": "*",
     "typescript": "*"
   },
   "author": "Code Chemistry",

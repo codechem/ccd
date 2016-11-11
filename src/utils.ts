@@ -1,5 +1,4 @@
 import * as express from 'express'
-import * as mongoose from 'mongoose' 
 import { DescriptorStore } from './decorators/descriptorStore';
 
 export interface DebugSettings {
@@ -15,11 +14,7 @@ export function sendData(res:express.Response, err:any, data:any) {
         } else {
             res.header('Title', 'Invalid Data');
             console.log(err);
-            if (err instanceof mongoose.Error) {
-                res.header('Message', err.toString());
-            } else {
-                res.header('Message', err.message);
-            }
+            res.header('Message', err.message);
             res.sendStatus(400);
         }
     } else {

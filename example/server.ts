@@ -1,10 +1,7 @@
 import * as express from 'express'
-import {CCController, get, post, docGen, ngSvcGen} from  'ccd'
+import {CCController, get, post} from  'ccd'
 let app = express()
 
-
-@ngSvcGen('./client/services', true)
-@docGen('./docs')
 class HelloCtrl extends CCController{
     @get('/hello')    
     helloWorld(req, res){

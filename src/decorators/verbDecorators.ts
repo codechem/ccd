@@ -1,4 +1,3 @@
-import * as console from 'console';
 import { RequestHandler } from '../refs'
 import { CCController } from '../ccController'
 import { CCActionDescritor } from './ccActionDescriptor';
