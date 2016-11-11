@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- '6'
+before_script:
+- npm install -g gulp
+- npm install
+script:
+- gulp bump
+- gulp
+deploy:
+  provider: script
+  email: costa@codechem.com
+  api_key:
+    secure: VGTJAEAUJD7HR4bqH/3eWF5TyA6X3JQ/AWc5ttUol0ZMx+7NOOikvqk9d2i14nYBTsqPlkuF/WVz6+iXul54DBNRL/IxBCZec6lnBOdE7C4uyR92ZE5OzblgiK++BxemOD0C/ZpEv1ww58U6qZUyPw107KroO6xHEupUBKIu0xFBdle6BRBjuh0LHBVNISelOjg8FoJiHMIPlTZxkDNW/hMLg/7ca6XM7iQYTqSM7jhX3RQGm2mD+wM1xxJpX9/VoIcU5O1MY6RgyZHCpAz5V8Wueuo3NQzbvBpFytwZ+ol+M3h5s6lpp7DpJIZsyVSivfbd1PjsIC7XgzjVda2AB/ZTnydb+0iutg6W4U1rQfLAoUoLxFy0bIQkhvpz5UNQudUzrs7OYCaggE/urMAZji1bXpRVeQifJRmAYEYp2AI7INpYuW5+je3rH2WlYtp7xlyMPC2/euQ6OKpSnxnTyZQfpoSfRJlETigtm/HwRZN4GZY8JH1Nu5BxeiX5c4k3Rug4bFM0kcaB0s9ZrQpQlwv+7DvVEg7wcIxMsz3SECLCAa0H9Ire2LSeGwCOXwZNUUrURGsPLHwYaKSDEnVM/y3mNzLv9Cos0gg+i+7orbgXxTHAGgU2UyXCoKJq3Ull/CEd38cxEe5S9p6rFPbY31nDBHCU8X4I985PDl0sExc=
+  on:
+    tags: true
+    repo: codechem/ccd

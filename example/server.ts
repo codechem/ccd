@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {CCController, get} from  '../index'
+import {CCController, get, post} from  'ccd'
 let app = express()
 
 class HelloCtrl extends CCController{
@@ -7,8 +7,11 @@ class HelloCtrl extends CCController{
     helloWorld(req, res){
         return 'helloWorld'
     }
-
-    @get('/async')    
+    @post('/:id')
+    update(req, res){
+        return 'ajde sega da videme'
+    }
+    @get('/async')
     helloWorldAsync(req, res){
         return new Promise((resolve)=>{
             setTimeout(function() {

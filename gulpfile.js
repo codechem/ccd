@@ -8,8 +8,11 @@ var childProcess = require('child_process');
 var tsProject = ts.createProject('tsconfig.json');
 var tslint = require("gulp-tslint");
 
+// const OUTPUT_DIR_FLEET= '/Users/dulepop-andov/projects/cc/ccfleet/server/node_modules/ccd'
+// const OUTPUT_DIR_EXAMPLE = './example/node_modules/ccd'
+const OUTPUT_DIR = './build'
 gulp.task('clean', function(){
-    return gulp.src('./build').pipe(clean());
+    return gulp.src(OUTPUT_DIR).pipe(clean());
 });
 
 gulp.task('compile', ['tslint','compileIndex', 'compileExample'],function() {
@@ -17,10 +20,10 @@ gulp.task('compile', ['tslint','compileIndex', 'compileExample'],function() {
         .pipe(sourcemaps.init())
         .pipe(tsProject());
     return merge([
-        tsResult.dts.pipe(gulp.dest('./build/src')),
+        tsResult.dts.pipe(gulp.dest(OUTPUT_DIR+'/src')),
         tsResult.js
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('./build/src'))
+            .pipe(gulp.dest(OUTPUT_DIR+'/src'))
     ]);
 });
 
@@ -35,10 +38,10 @@ gulp.task('compileIndex', function() {
         .pipe(sourcemaps.init())
         .pipe(tsProject());
     return merge([ 
-        tsResultIndex.dts.pipe(gulp.dest('./build')),
+        tsResultIndex.dts.pipe(gulp.dest(OUTPUT_DIR)),
         tsResultIndex.js
             .pipe(sourcemaps.write('.'))
-            .pipe(gulp.dest('./build'))        
+            .pipe(gulp.dest(OUTPUT_DIR))
     ]);
 });
 
@@ -48,9 +51,9 @@ gulp.task('compileExample', function() {
         .pipe(sourcemaps.init('.'))
         .pipe(tsProject());
     return merge([ 
-        tsResult.dts.pipe(gulp.dest('./build/example')),
-        tsResult.js.pipe(gulp.dest('./build/example')),
-        gulp.src("./example/*.ts").pipe(gulp.dest('./build/example'))        
+        tsResult.dts.pipe(gulp.dest(OUTPUT_DIR+'/example')),
+        tsResult.js.pipe(gulp.dest(OUTPUT_DIR+'/example')),
+        gulp.src("./example/*.ts").pipe(gulp.dest(OUTPUT_DIR+'/example'))        
     ]);
 });
 
@@ -62,14 +65,14 @@ gulp.task('bump', function(){
 
 gulp.task('copyfiles', function(){
     return merge([
-        gulp.src('.npmignore').pipe(gulp.dest('./build/')),
-        gulp.src('package.json').pipe(gulp.dest('./build/'))
+        gulp.src('.npmignore').pipe(gulp.dest(OUTPUT_DIR)),
+        gulp.src('package.json').pipe(gulp.dest(OUTPUT_DIR))
     ])
 });
 
 gulp.task('publish', ['bump', 'compile', 'copyfiles'], function (done) {
   childProcess
-    .spawn('npm', ['publish'], { stdio: 'inherit', cwd:'./build' })
+    .spawn('npm', ['publish'], { stdio: 'inherit', cwd:OUTPUT_DIR })
     .on('close', done);
 });
 
@@ -77,7 +80,7 @@ gulp.task('default', ['compile', 'copyfiles'], function(){});
 
 gulp.task('server', ['compile', 'copyfiles'],function (cb) {
   childProcess
-  .exec('node build/example/server.js', function (err, stdout, stderr) {
+  .exec('node '+OUTPUT_DIR+'/example/server.js', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     cb(err);
