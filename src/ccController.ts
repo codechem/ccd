@@ -1,6 +1,7 @@
-import { ProxyHandlerDescritor } from './controllerDecorators';
 import { IRouter, Request, RequestHandler, Response, Router } from './refs';
 import { DebugSettings, send, sendData, SenderFunction } from './utils';
+import { DescriptorStore } from './decorators/descriptorStore';
+
 
 export interface NextFunction {
     (err?: any): void;
@@ -18,25 +19,17 @@ export interface ICCController {
 }
 
 export class CCController implements ICCController {
-    __descriptors = {}
+    __descriptors:DescriptorStore;
     constructor(public router: IRouter = null, public debugSettings?: DebugSettings) {
         if(!this.router)
             this.router = Router()
         if (!debugSettings)
-            debugSettings = { debug: false } 
-        this.setRoutes()
-        this.applyDescriptors();
-    }
+            this.debugSettings = { debug: false } 
+        this.__descriptors.apply(this);
+        this.__descriptors.clear();
 
-    applyDescriptors(){
-        for (let key in this.__descriptors) { 
-            if(this.__descriptors.hasOwnProperty(key)){
-                let descriptors = this.__descriptors[key];
-                descriptors.forEach(d=>d.apply(this));        
-            }
-        }
+        this.setRoutes();
     }
-
     public setRoutes() { }
 
     public setDefaultRoutes(...middlewares: RequestHandler[]): IRouter {
