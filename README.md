@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/codechem/ccd-snippets/master/images/ccdLogo.png"></img>
+<img height="100" src="https://raw.githubusercontent.com/codechem/ccd-snippets/master/images/ccdLogo.png"></img>
 
 # CCD - ES7 web framework for node 
 [![Travis](https://img.shields.io/travis/codechem/ccd.svg)]()
@@ -82,21 +82,40 @@ app.listen(3000);
 ## Plugins
     
 ### 1. [ccd-mongo](https://github.com/codechem/ccd-mongo)
+
 - Integration with mongod for rapid development of db driven services
 - ```npm install ccd-mongo```
 - Example:
-    ```typescript
-    class UserCtrl extends CCServiceController<User>{
-        @post('/login')    
-        login(req, res){
-            //yes, that simple, 
-            //model is regulat mongoose model
-            return this.model.findOne(req.body); 
-        }
+```typescript
+class UserCtrl extends CCServiceController<User>{
+    @post('/login')    
+    login(req, res){
+        //yes, that simple, 
+        //model is regulat mongoose model
+        return this.model.findOne(req.body); 
     }
-    ```
+}
+
+//Or If you preffer to separate services and controllers then:
+class SpiecesSvc extends CCService<Spiece>{
+    ofKind(kind:string){
+        return this.model.find({Kind:kind}).exec();
+    }
+}
+//----------
+class SpiecesCtrl extends CCController{
+    spieces: new SpiecesSvc('Spieces')
+    @get('/spieces/:kind') 
+    ofKind(req, res){
+            return spieces.ofKind(req.params.kind);
+    }
+}
+```
+
 ### 1. [ccd-ng2](https://github.com/codechem/ccd-ng2)
+
 - Provides ```@ngGenSvc``` decorator that generates angular2 services for a given ```CCController```
+
 #### Server:
 ```typescript
 @ngSvcGen('./client/svc', true)
@@ -113,7 +132,9 @@ class HelloCtrl extends CCController{
     ...
 }
 ```
+
 #### Output(Angular 2 service):
+
 ```typescript
 import { Injectable } from '@angular/core';
 import { SimpleRestService } from 'ccNgRest';
@@ -133,35 +154,9 @@ export class HelloCtrlSvc{
 ```
 
 ### 1. [ccd-doc](https://github.com/codechem/ccd-doc)
+
 - Not published yet
 
-## Notes
-
-**Mongoose** is temporary dependency because in the library there is a class called CCService 
-which will be eventualy plugin for the **ccd** framework.
-
-The idea behind this is easy and fast creation of services who use mongoose as a backend,
-It contains all the CRUD methods already implmented and with combination with CCController implementation it provides really short and descriptive environment for devinging them, 
-primarily because mongoose returns promises , so async/await are fully applicable. 
-
-Example:
-
-```javascript
-    //Service implementation already has all the crud operations, and you can freely override them
-    class SpiecesSvc extends CCService<Spiece>{
-        ofKind(kind:string){
-            return this.model.find({Kind:kind}).exec();
-        }
-    }
-    //----------
-    class SpiecesCtrl extends CCController{
-        spieces: new SpiecesSvc('Spieces')
-        @get('/spieces/:kind') 
-        ofKind(req, res){
-             return spieces.ofKind(req.params.kind);
-        }
-    }
-```
 
 ## Contributors
 [Costa Halicea](https://github.com/halicea)|
