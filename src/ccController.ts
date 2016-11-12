@@ -1,6 +1,6 @@
 import { IRouter, Request, RequestHandler, Response, Router } from './refs';
 import { DebugSettings, send, sendData, SenderFunction } from './utils';
-import { DescriptorStore } from './decorators/descriptorStore';
+import { DescriptorStore } from './decorators/index';
 
 
 export interface NextFunction {
@@ -38,6 +38,9 @@ export class CCController implements ICCController {
 
     senderFunction(res, err, data){
         return sendData(res, err, data);
+    }
+    public handle<T>(req:Request, res:Response){
+        return this.router.handle(req, res);
     }
 
     /**

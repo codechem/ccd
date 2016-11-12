@@ -1,9 +1,10 @@
 <img src="https://raw.githubusercontent.com/codechem/ccd-snippets/master/images/ccdLogo.png"></img>
 
 # CCD - ES7 web framework for node 
-
-[![npm version](https://badge.fury.io/js/ccd.png)](https://badge.fury.io/js/ccd)
-[![Build Status](https://travis-ci.org/codechem/ccd.svg?branch=master)](https://travis-ci.org/codechem/ccd)
+[![Travis](https://img.shields.io/travis/codechem/ccd.svg)]()
+[![npm](https://img.shields.io/npm/v/ccd.svg)]()
+[![npm](https://img.shields.io/npm/dm/ccd.svg)](https://github.com/codechem/ccd)
+[![Maintenance](https://img.shields.io/maintenance/yes/2016.svg)]()
 
 Expressive, class based approach web framework. 
 It uses the latest ES7 features like async/await and decorators to make writing web apps and apis simple and fun.
