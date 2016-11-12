@@ -1,6 +1,8 @@
 <img height="100" src="https://raw.githubusercontent.com/codechem/ccd-snippets/master/images/ccdLogo.png"></img>
 
 # CCD - ES7 web framework for node 
+
+[![Join the chat at https://gitter.im/codechem/ccd](https://badges.gitter.im/codechem/ccd.svg)](https://gitter.im/codechem/ccd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Travis](https://img.shields.io/travis/codechem/ccd.svg)]()
 [![npm](https://img.shields.io/npm/v/ccd.svg)]()
 [![npm](https://img.shields.io/npm/dm/ccd.svg)](https://github.com/codechem/ccd)
