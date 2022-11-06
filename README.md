@@ -2,10 +2,7 @@
 
 # CCD - ES7 web framework for node 
 
-# Important
-This framework is not actively developed for couple fo years now and should not be used in production. 
 
-It stays here for historical reasons as the first(to my knowledge) framework with async-await and decorators support (through typescript at the time).
 
 [![Join the chat at https://gitter.im/codechem/ccd](https://badges.gitter.im/codechem/ccd.svg)](https://gitter.im/codechem/ccd?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Travis](https://img.shields.io/travis/codechem/ccd.svg)]()
@@ -16,6 +13,13 @@ It stays here for historical reasons as the first(to my knowledge) framework wit
 Expressive, class based approach web framework. 
 It uses the latest ES7 features like async/await and decorators to make writing web apps and apis simple and fun.
 It can be used thru typescript only at the moment  
+
+# Important
+This framework is not actively developed for couple of years now and should not be used in production. 
+
+It stays here for historical reasons as the first(to my knowledge) framework with async-await and decorators support (through typescript at the time).
+
+Additionally, it may be a good resource for learning due to its relatively small code base.
 
 ## Installation
 
